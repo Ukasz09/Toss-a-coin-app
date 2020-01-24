@@ -1,46 +1,54 @@
 package UI;
 
-import javafx.scene.layout.VBox;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class ResultBarField extends JPanel {
-    private int digitsNumbers = 3;
-    private String fontName = "SansSerif";
-    private int fontStyle = Font.BOLD;
+    private static final double LABEL_WIDTH_TO_SCREEN_PROPORTION = 0.1;
+    private static final double LABEL_HEIGHT_TO_SCREEN_PROPORTION = 0.1;
 
-    public ResultBarField(String labelTxt, int textSize) {
+    private final int digitsNumbers = 2;
+    private final String fontName = "SansSerif";
+    private final int fontStyle = Font.BOLD;
+
+    private JTextField counterTextField;
+    private int actualCount = 0;
+
+    public ResultBarField(String labelTxt, int textSize, int screenWidth, int screenHeight) {
         Font font = new Font(fontName, fontStyle, textSize);
-        add(getNewIdLabel(font, labelTxt));
+        add(getNewIdLabel(font, labelTxt, screenWidth, screenHeight));
         add(getNewCounterField(font, digitsNumbers));
-        setBackground(Color.pink); //todo: tmp
-//        setOpaque(false);
+        setOpaque(false);
     }
 
-    //todo: border na stale wzgledem ekranu
-    private JLabel getNewIdLabel(Font font, String labelText) {
-        JLabel label = new JLabel(labelText,SwingConstants.CENTER);
+    private JLabel getNewIdLabel(Font font, String labelText, int screenWidth, int screenHeight) {
+        JLabel label = new JLabel(labelText, SwingConstants.CENTER);
+        int labelWidth = (int) (screenWidth * LABEL_WIDTH_TO_SCREEN_PROPORTION);
+        int labelHeight = (int) (screenHeight * LABEL_HEIGHT_TO_SCREEN_PROPORTION);
+        label.setPreferredSize(new Dimension(labelWidth, labelHeight));
         label.setFont(font);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setOpaque(false);
+        label.setHorizontalAlignment(SwingConstants.RIGHT);
         label.setVerticalAlignment(SwingConstants.CENTER);
-        label.setBackground(Color.red);
-        label.setOpaque(true);
-        label.setBorder(new EmptyBorder(10,20,10,20));
+
         return label;
     }
 
     private JTextField getNewCounterField(Font font, int numberPrecision) {
-        JTextField textField = new JTextField(numberPrecision);
-        textField.setText("0");
-        textField.setOpaque(false);
-//        textField.setBorder(new EmptyBorder(0, 0, 0, 0));
-        textField.setBorder(new EmptyBorder(10,20,10,20));
-        textField.setEditable(false);
-        textField.setFont(font);
-        textField.setHorizontalAlignment(JTextField.CENTER);
+        counterTextField = new JTextField(numberPrecision);
+        counterTextField.setText(String.valueOf(actualCount));
+        counterTextField.setOpaque(false);
+        counterTextField.setBorder(new EmptyBorder(0, 0, 0, 0));
+        counterTextField.setEditable(false);
+        counterTextField.setFont(font);
+        counterTextField.setHorizontalAlignment(JTextField.CENTER);
 
-        return textField;
+        return counterTextField;
+    }
+
+    public void setActualCount(int actualCount) {
+        this.actualCount = actualCount;
+        counterTextField.setText(String.valueOf(actualCount));
     }
 }
