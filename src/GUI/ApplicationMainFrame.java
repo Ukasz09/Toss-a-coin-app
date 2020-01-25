@@ -20,8 +20,6 @@ import java.awt.event.KeyListener;
 
 public class ApplicationMainFrame extends JFrame implements IObserver {
     private static final String APPLICATION_NAME = "Toss a coin app";
-    private static final String HEADS_LABEL_NAME = "Heads count =";
-    private static final String TAILS_LABEL_NAME = "Tails count =";
     private static final double FONT_SIZE_TO_SCREEN_HEIGHT_PROPORTION = 0.025;
 
     private Background background;
@@ -54,12 +52,12 @@ public class ApplicationMainFrame extends JFrame implements IObserver {
     private void initializeComponents() {
         background = new Background();
         coinTosser = new CoinTosser();
-        coinSprite = new CoinSprite(background.getScreenWidth(), background.getScreenHeight()); //todo: wyrzucic pozycje ??
+        coinSprite = new CoinSprite(background.getScreenWidth(), background.getScreenHeight());
         int textSize = (int) (background.getScreenHeight() * FONT_SIZE_TO_SCREEN_HEIGHT_PROPORTION);
         int screenWidth = background.getScreenWidth();
         int screenHeight = background.getScreenHeight();
-        headsField = new ResultBarField(HEADS_LABEL_NAME, textSize, screenWidth, screenHeight);
-        tailsField = new ResultBarField(TAILS_LABEL_NAME, textSize, screenWidth, screenHeight);
+        headsField = new ResultBarField(false, textSize, screenWidth, screenHeight);
+        tailsField = new ResultBarField(true, textSize, screenWidth, screenHeight);
     }
 
     private void setDefaultFrameProperty() {
@@ -82,7 +80,7 @@ public class ApplicationMainFrame extends JFrame implements IObserver {
     private void addTossButtonPanel() {
         TossButtonPanel tossButtonPanel = new TossButtonPanel(background.getScreenWidth(), background.getScreenHeight());
         background.add(tossButtonPanel, BorderLayout.SOUTH);
-        TossButton tossButton = new TossButton(background.getScreenWidth(),background.getScreenHeight());
+        TossButton tossButton = new TossButton(background.getScreenWidth(), background.getScreenHeight());
         tossButton.attachObserver(coinSprite);
         coinSprite.attachObserver(tossButton);
         tossButtonPanel.add(tossButton);
@@ -90,9 +88,9 @@ public class ApplicationMainFrame extends JFrame implements IObserver {
 
     private void addResultPanel() {
         ResultPanel resultPanel = new ResultPanel();
-        resultPanel.getNestedPanel().add(headsField, BorderLayout.WEST);
-        resultPanel.getNestedPanel().add(tailsField, BorderLayout.WEST);
-        background.add(resultPanel, BorderLayout.EAST);
+        resultPanel.add(headsField);
+        resultPanel.add(tailsField);
+        background.add(resultPanel, BorderLayout.NORTH);
     }
 
     private void addCoinSprite() {
