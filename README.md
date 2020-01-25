@@ -7,7 +7,6 @@
 <p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/Toss-a-coin-app/master/readmeImages/gameplay.gif"></p>
 
 ![gameplay image](https://raw.githubusercontent.com/Ukasz09/Toss-a-coin-app/master/readmeImages/readme1.png)
-![gameplay image](https://raw.githubusercontent.com/Ukasz09/Toss-a-coin-app/master/readmeImages/readme2.png)
 
 ---
 # JAR
