@@ -1,6 +1,7 @@
 package GUI.sprites.spriteSheetProperties;
 
 import GUI.sprites.spriteProperties.KindOfStateEnum;
+import resources.ResourceTemplateClass;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +28,7 @@ public class ImageSheetProperty {
         }
 
         Builder withImagePath(String imagePath) {
-            this.imageSheet = new ImageIcon(imagePath).getImage();
+            this.imageSheet = new javax.swing.ImageIcon(ResourceTemplateClass.class.getResource(imagePath)).getImage();
             return this;
         }
 

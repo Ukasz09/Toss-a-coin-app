@@ -84,7 +84,7 @@ public class ApplicationMainFrame extends JFrame implements IObserver {
         background.add(tossButtonPanel, BorderLayout.SOUTH);
         TossButton tossButton = new TossButton(background.getScreenWidth(),background.getScreenHeight());
         tossButton.attachObserver(coinSprite);
-        coinSprite.attachObserver(coinTosser);
+        coinSprite.attachObserver(tossButton);
         tossButtonPanel.add(tossButton);
     }
 
@@ -97,6 +97,7 @@ public class ApplicationMainFrame extends JFrame implements IObserver {
 
     private void addCoinSprite() {
         background.add(coinSprite, BorderLayout.CENTER);
+        coinSprite.attachObserver(coinTosser);
     }
 
     @Override

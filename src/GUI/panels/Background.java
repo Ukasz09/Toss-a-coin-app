@@ -1,17 +1,19 @@
 package GUI.panels;
 
+import resources.ResourceTemplateClass;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Background extends JPanel {
-    private static final String IMAGE_PATH = "src/resources/background.jpg";
+    private static final String IMAGE_PATH = "background.jpg";
     private final Image backgroundImage;
     private int screenHeight;
     private int screenWidth;
     private Toolkit toolkit;
 
     public Background() {
-        backgroundImage = new ImageIcon(IMAGE_PATH).getImage();
+        backgroundImage = new javax.swing.ImageIcon(ResourceTemplateClass.class.getResource(IMAGE_PATH)).getImage();
         toolkit = Toolkit.getDefaultToolkit();
         setScreenSize();
         setLayout(new BorderLayout());
