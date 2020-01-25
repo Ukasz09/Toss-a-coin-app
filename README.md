@@ -3,6 +3,12 @@
 >Fun, animated application/game of toss coin simulation written in Java language using Swing library 💰🎲
 <br/>
 
+
+<p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/Toss-a-coin-app/master/readmeImages/gameplay.gif"></p>
+
+![gameplay image](https://raw.githubusercontent.com/Ukasz09/Toss-a-coin-app/master/readmeImages/readme1.jpg)
+![gameplay image](https://raw.githubusercontent.com/Ukasz09/Toss-a-coin-app/master/readmeImages/readme2.jpg)
+
 ---
 # JAR
 If there is a problem with running, try to open it by console with command:
@@ -11,7 +17,7 @@ java -jar TossACoinApp.jar
 ```
 ---
 # Game control
-`mouse` - intuitively, by clicking on button and coin
+`mouse` - intuitively, by clicking on button and coin <br/>
 `Esc` - shortcut for end game button
 
 ---
