@@ -1,11 +1,11 @@
-package GUI.Panels;
+package GUI.panels;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class ResultBarField extends JPanel {
-    private static final double LABEL_WIDTH_TO_SCREEN_PROPORTION = 0.1;
+    private static final double LABEL_WIDTH_TO_SCREEN_PROPORTION = 0.15;
     private static final double LABEL_HEIGHT_TO_SCREEN_PROPORTION = 0.1;
 
     private final int digitsNumbers = 2;

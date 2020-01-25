@@ -23,7 +23,7 @@ public class CoinTosser implements IObserver, IObservable {
 
     @Override
     public void updateObserver(EventKind eventKind) {
-        if (eventKind == EventKind.TOSS_COIN_BUTTON_CLICKED)
+        if (eventKind == EventKind.COIN_STOP_ROTATING)
             tossACoin();
         else Logger.logError(getClass(), "Unknown event");
     }

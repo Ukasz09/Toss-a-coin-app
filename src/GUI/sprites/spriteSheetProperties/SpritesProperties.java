@@ -9,7 +9,9 @@ public class SpritesProperties {
                 .withImagePath(spritePath)
                 .withSizeOfOneFrame(334, 338)
                 .withDefaultDurationPerOneFrame(1)
-                .withAddActionState(KindOfStateEnum.COIN_HEADS, 0, 44)
+                .withAddActionState(KindOfStateEnum.COIN_ROTATING, 0, 43)
+                .withAddActionState(KindOfStateEnum.COIN_HEADS, 22, 10)
+                .withAddActionState(KindOfStateEnum.COIN_TAILS, 2, 9)
                 .build();
         return sheetProperty;
     }

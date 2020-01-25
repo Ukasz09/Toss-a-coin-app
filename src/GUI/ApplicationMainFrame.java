@@ -1,11 +1,12 @@
 package GUI;
 
-import GUI.Panels.Background;
-import GUI.Panels.ResultBarField;
-import GUI.Panels.ResultPanel;
-import GUI.Panels.TossButtonPanel;
+import GUI.buttons.TossButton;
+import GUI.panels.Background;
+import GUI.panels.ResultBarField;
+import GUI.panels.ResultPanel;
+import GUI.panels.TossButtonPanel;
 import GUI.sprites.CoinSprite;
-import GUI.sprites.spriteProperties.IDrawingGraphic;
+import GUI.sprites.spriteProperties.KindOfStateEnum;
 import logic.CoinTosser;
 import logic.Logger;
 import logic.observerPattern.EventKind;
@@ -13,6 +14,9 @@ import logic.observerPattern.IObserver;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class ApplicationMainFrame extends JFrame implements IObserver {
     private static final String APPLICATION_NAME = "Toss a coin app";
@@ -32,12 +36,25 @@ public class ApplicationMainFrame extends JFrame implements IObserver {
         initializeComponents();
         addComponentsToPanels();
         coinTosser.attachObserver(this);
+        addEndProgramShortcutListener();
+    }
+
+    private void addEndProgramShortcutListener() {
+        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        Action escapeAction = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                System.exit(0);
+            }
+        };
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
+        getRootPane().getActionMap().put("ESCAPE", escapeAction);
     }
 
     private void initializeComponents() {
         background = new Background();
         coinTosser = new CoinTosser();
-        coinSprite=new CoinSprite(background.getScreenWidth(),background.getScreenHeight()) ; //todo: wyrzucic pozycje ??
+        coinSprite = new CoinSprite(background.getScreenWidth(), background.getScreenHeight()); //todo: wyrzucic pozycje ??
         int textSize = (int) (background.getScreenHeight() * FONT_SIZE_TO_SCREEN_HEIGHT_PROPORTION);
         int screenWidth = background.getScreenWidth();
         int screenHeight = background.getScreenHeight();
@@ -46,8 +63,7 @@ public class ApplicationMainFrame extends JFrame implements IObserver {
     }
 
     private void setDefaultFrameProperty() {
-//        setFullScreen();
-        setSize(1600, 900); //todo: tmp
+        setFullScreen();
         setVisible(true);
     }
 
@@ -66,8 +82,9 @@ public class ApplicationMainFrame extends JFrame implements IObserver {
     private void addTossButtonPanel() {
         TossButtonPanel tossButtonPanel = new TossButtonPanel(background.getScreenWidth(), background.getScreenHeight());
         background.add(tossButtonPanel, BorderLayout.SOUTH);
-        TossButton tossButton = new TossButton();
-        tossButton.attachObserver(coinTosser);
+        TossButton tossButton = new TossButton(background.getScreenWidth(),background.getScreenHeight());
+        tossButton.attachObserver(coinSprite);
+        coinSprite.attachObserver(coinTosser);
         tossButtonPanel.add(tossButton);
     }
 
@@ -79,20 +96,26 @@ public class ApplicationMainFrame extends JFrame implements IObserver {
     }
 
     private void addCoinSprite() {
-        background.add(coinSprite,BorderLayout.CENTER);
+        background.add(coinSprite, BorderLayout.CENTER);
     }
 
     @Override
     public void updateObserver(EventKind eventKind) {
         switch (eventKind) {
-            case COMES_UP_HEADS:
+            case COMES_UP_HEADS: {
+                coinSprite.changeState(KindOfStateEnum.COIN_HEADS);
                 headsField.setActualCount(coinTosser.getHeadsCount());
-                break;
-            case COMES_UP_TAILS:
+
+            }
+            break;
+            case COMES_UP_TAILS: {
+                coinSprite.changeState(KindOfStateEnum.COIN_TAILS);
                 tailsField.setActualCount(coinTosser.getTailsCount());
-                break;
+            }
+            break;
             default:
                 Logger.logError(getClass(), "Unknown event");
         }
     }
+
 }

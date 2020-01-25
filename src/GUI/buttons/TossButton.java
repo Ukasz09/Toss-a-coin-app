@@ -1,4 +1,4 @@
-package GUI;
+package GUI.buttons;
 
 import logic.observerPattern.EventKind;
 import logic.observerPattern.IObservable;
@@ -11,15 +11,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class TossButton extends JButton implements IObservable {
+    private static final double BUTTON_WIDTH_TO_SCREEN_PROPORTION = 0.15;
+    private static final double BUTTON_HEIGHT_TO_SCREEN_PROPORTION = 0.1;
+
     private Set<IObserver> observers;
     private static final String BUTTON_ICON_PATH = "src/resources/tossTheCoinButton.png";
     private static final String BUTTON_PRESSED_ICON_PATH = "src/resources/tossTheCoinButtonPressed.png";
 
-    public TossButton() {
+    public TossButton(int screenWidth, int screenHeight) {
         observers = new HashSet<>();
         setDefaultProperty();
-        setIcon(getNewButtonIcon());
-        setPressedIcon(getNewButtonPressedIcon());
+        setIcon(getNewButtonIcon(screenWidth, screenHeight));
+        setPressedIcon(getNewButtonPressedIcon(screenWidth, screenHeight));
         addActionListener();
     }
 
@@ -30,14 +33,16 @@ public class TossButton extends JButton implements IObservable {
         setFocusPainted(false);
     }
 
-    private Icon getNewButtonIcon() {
+    private Icon getNewButtonIcon(int screenWidth, int screenHeight) {
         Image image = new ImageIcon(BUTTON_ICON_PATH).getImage();
-        return new ImageIcon(image);
+        Image resizedImage = image.getScaledInstance( (int)(screenWidth*BUTTON_WIDTH_TO_SCREEN_PROPORTION), (int)(screenHeight*BUTTON_HEIGHT_TO_SCREEN_PROPORTION),  java.awt.Image.SCALE_SMOOTH ) ;
+        return new ImageIcon(resizedImage);
     }
 
-    private Icon getNewButtonPressedIcon() {
+    private Icon getNewButtonPressedIcon(int screenWidth, int screenHeight) {
         Image image = new ImageIcon(BUTTON_PRESSED_ICON_PATH).getImage();
-        return new ImageIcon(image);
+        Image resizedImage = image.getScaledInstance( (int)(screenWidth*BUTTON_WIDTH_TO_SCREEN_PROPORTION), (int)(screenHeight*BUTTON_HEIGHT_TO_SCREEN_PROPORTION),  java.awt.Image.SCALE_SMOOTH ) ;
+        return new ImageIcon(resizedImage);
     }
 
     private void addActionListener() {
