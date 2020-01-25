@@ -72,8 +72,7 @@ public class TossButton extends JButton implements IObservable, IObserver {
 
     @Override
     public void updateObserver(EventKind eventKind) {
-        if(eventKind==EventKind.COIN_STOP_ROTATING)
+        if(eventKind==EventKind.COIN_READY_TO_TOSS)
             setVisible(true);
-        else Logger.logError(getClass(),"Unknown event");
     }
 }

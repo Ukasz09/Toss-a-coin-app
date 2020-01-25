@@ -25,7 +25,6 @@ public class CoinTosser implements IObserver, IObservable {
     public void updateObserver(EventKind eventKind) {
         if (eventKind == EventKind.COIN_STOP_ROTATING)
             tossACoin();
-        else Logger.logError(getClass(), "Unknown event");
     }
 
     private void tossACoin() {
