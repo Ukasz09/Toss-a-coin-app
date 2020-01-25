@@ -8,7 +8,7 @@
 
 ![gameplay image](https://raw.githubusercontent.com/Ukasz09/Toss-a-coin-app/master/readmeImages/readme1.jpg)
 ![gameplay image](https://raw.githubusercontent.com/Ukasz09/Toss-a-coin-app/master/readmeImages/readme2.jpg)
-
+![alt text](https://raw.githubusercontent.com/Ukasz09/Valentines-Game/master/readmeImages/1.png)
 ---
 # JAR
 If there is a problem with running, try to open it by console with command:
