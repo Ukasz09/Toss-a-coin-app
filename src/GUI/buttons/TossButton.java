@@ -1,6 +1,5 @@
 package GUI.buttons;
 
-import logic.Logger;
 import logic.observerPattern.EventKind;
 import logic.observerPattern.IObservable;
 import logic.observerPattern.IObserver;
@@ -15,35 +14,39 @@ import java.util.Set;
 public class TossButton extends JButton implements IObservable, IObserver {
     private static final double BUTTON_WIDTH_TO_SCREEN_PROPORTION = 0.15;
     private static final double BUTTON_HEIGHT_TO_SCREEN_PROPORTION = 0.1;
-
-    private Set<IObserver> observers;
     private static final String BUTTON_ICON_PATH = "tossTheCoinButton.png";
     private static final String BUTTON_PRESSED_ICON_PATH = "tossTheCoinButtonPressed.png";
 
+    private Set<IObserver> observers;
+    private int buttonWidth;
+    private int buttonHeight;
+
     public TossButton(int screenWidth, int screenHeight) {
         observers = new HashSet<>();
-        setDefaultProperty();
-        setIcon(getNewButtonIcon(screenWidth, screenHeight));
-        setPressedIcon(getNewButtonPressedIcon(screenWidth, screenHeight));
+        setDefaultProperty(screenWidth, screenHeight);
+        setIcon(getNewButtonNormalIcon());
+        setPressedIcon(getNewButtonPressedIcon());
         addActionListener();
     }
 
-    private void setDefaultProperty() {
+    private void setDefaultProperty(int screenWidth, int screenHeight) {
         setOpaque(false);
         setContentAreaFilled(false);
         setBorderPainted(false);
         setFocusPainted(false);
+        buttonWidth = (int) (screenWidth * BUTTON_WIDTH_TO_SCREEN_PROPORTION);
+        buttonHeight = (int) (screenHeight * BUTTON_HEIGHT_TO_SCREEN_PROPORTION);
     }
 
-    private Icon getNewButtonIcon(int screenWidth, int screenHeight) {
+    private Icon getNewButtonNormalIcon() {
         Image image = new javax.swing.ImageIcon(ResourceTemplateClass.class.getResource(BUTTON_ICON_PATH)).getImage();
-        Image resizedImage = image.getScaledInstance( (int)(screenWidth*BUTTON_WIDTH_TO_SCREEN_PROPORTION), (int)(screenHeight*BUTTON_HEIGHT_TO_SCREEN_PROPORTION),  java.awt.Image.SCALE_SMOOTH ) ;
+        Image resizedImage = image.getScaledInstance(buttonWidth, buttonHeight, java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
     }
 
-    private Icon getNewButtonPressedIcon(int screenWidth, int screenHeight) {
+    private Icon getNewButtonPressedIcon() {
         Image image = new javax.swing.ImageIcon(ResourceTemplateClass.class.getResource(BUTTON_PRESSED_ICON_PATH)).getImage();
-        Image resizedImage = image.getScaledInstance( (int)(screenWidth*BUTTON_WIDTH_TO_SCREEN_PROPORTION), (int)(screenHeight*BUTTON_HEIGHT_TO_SCREEN_PROPORTION),  java.awt.Image.SCALE_SMOOTH ) ;
+        Image resizedImage = image.getScaledInstance(buttonWidth, buttonHeight, java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
     }
 
@@ -72,7 +75,7 @@ public class TossButton extends JButton implements IObservable, IObserver {
 
     @Override
     public void updateObserver(EventKind eventKind) {
-        if(eventKind==EventKind.COIN_READY_TO_TOSS)
+        if (eventKind == EventKind.COIN_READY_TO_TOSS)
             setVisible(true);
     }
 }

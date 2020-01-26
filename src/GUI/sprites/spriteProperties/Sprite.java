@@ -7,18 +7,14 @@ public abstract class Sprite extends JPanel implements IDrawingGraphic {
     protected int positionX, positionY;
     protected int width, height;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public Sprite(int width, int height, int positionX, int positionY) {
         this.width = width;
         this.height = height;
         this.positionX = positionX;
         this.positionY = positionY;
-
         setLayout(new FlowLayout(FlowLayout.CENTER));
-
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void setHeight(int height) {
         this.height = height;
     }
@@ -27,11 +23,11 @@ public abstract class Sprite extends JPanel implements IDrawingGraphic {
         this.width = width;
     }
 
-    public int getSpriteWidth(){
+    public int getSpriteWidth() {
         return width;
     }
 
-    public int getSpriteHeight(){
+    public int getSpriteHeight() {
         return height;
     }
 
@@ -52,10 +48,10 @@ public abstract class Sprite extends JPanel implements IDrawingGraphic {
     }
 
     protected static int getCoinSizeAfterScaling(double widthToScreenProportion, int windowWidth) {
-        return (int)(widthToScreenProportion * windowWidth);
+        return (int) (widthToScreenProportion * windowWidth);
     }
 
     protected static int getHeightAfterScaling(double heightToScreenProportion, int windowHeight) {
-        return (int)(heightToScreenProportion * windowHeight);
+        return (int) (heightToScreenProportion * windowHeight);
     }
 }

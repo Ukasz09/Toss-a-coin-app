@@ -13,7 +13,7 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
     private ImageSheetProperty spriteSheetProperty;
     private FrameStatePositions actualAnimationStateFrames;
     private KindOfStateEnum actualAnimationStateEnum;
-    private double actualCooldownOnFrame;
+    private double actualFreezeOnFrame = 0;
     private int actualFramePositionX;
     private int actualFramePositionY;
     private java.util.Timer timer;
@@ -22,10 +22,9 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
     public AnimatedSprite(int width, int height, int positionX, int positionY, ImageSheetProperty sheetProperty, KindOfStateEnum startedAnimationState, long animationIntervalPerFrame) {
         super(width, height, sheetProperty.getSheet(), positionX, positionY);
         this.spriteSheetProperty = sheetProperty;
-        this.actualAnimationStateEnum=startedAnimationState;
+        this.actualAnimationStateEnum = startedAnimationState;
         this.actualAnimationStateFrames = sheetProperty.getAction(actualAnimationStateEnum);
-        actualCooldownOnFrame = 0;
-       setActualFramesPositionToMinFromState();
+        setActualFramesPositionToMinFromState();
         timer = new java.util.Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), ANIMATION_FRAME_TIMER_DELAY, animationIntervalPerFrame);
     }
@@ -41,29 +40,29 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
         }
     }
 
-    private void setActualFramesPositionToMinFromState(){
+    private void setActualFramesPositionToMinFromState() {
         actualFramePositionX = actualAnimationStateFrames.getMinX();
         actualFramePositionY = actualAnimationStateFrames.getMinY();
     }
 
     private void updateSpriteSheetFrame() {
-        updateActualCooldownOnFrame();
+        updateActualFreezeOnFrame();
         if (needToChangeFrame()) {
             int minPositionX = actualAnimationStateFrames.getMinX();
             int maxPositionX = actualAnimationStateFrames.getMaxX();
             int minPositionY = actualAnimationStateFrames.getMinY();
             int maxPositionY = actualAnimationStateFrames.getMaxY();
             setPositionOfNextFrame(minPositionX, maxPositionX, minPositionY, maxPositionY, spriteSheetProperty.getSheetWidth());
-            restoreActualCooldown();
+            restoreActualFreezeOnFrame();
         }
     }
 
-    private void updateActualCooldownOnFrame() {
-        actualCooldownOnFrame -= 1;
+    private void updateActualFreezeOnFrame() {
+        actualFreezeOnFrame -= 1;
     }
 
     private boolean needToChangeFrame() {
-        return (actualCooldownOnFrame <= 0);
+        return (actualFreezeOnFrame <= 0);
     }
 
     private void setPositionOfNextFrame(int minXPosition, int maxXPosition, int minYPosition, int maxYPosition, int sheetWidth) {
@@ -80,16 +79,21 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
         }
     }
 
-    private void restoreActualCooldown() {
-        actualCooldownOnFrame = spriteSheetProperty.getTimeOnFrameInAnimation();
+    private void restoreActualFreezeOnFrame() {
+        actualFreezeOnFrame = spriteSheetProperty.getTimeOnFrameInAnimation();
     }
 
     @Override
     public void render(Graphics g) {
         int widthOfOneFrame = spriteSheetProperty.getWidthOfOneFrame();
         int heightOfOneFrame = spriteSheetProperty.getHeightOfOneFrame();
-        g.drawImage(spriteSheetProperty.getSheet(), positionX, positionY,
-                positionX + width, positionY + height, actualFramePositionX, actualFramePositionY, actualFramePositionX + widthOfOneFrame, actualFramePositionY + heightOfOneFrame, null);
+        int spriteEndPositionX = positionX + width;
+        int spriteEndPositionY = positionY + height;
+        int frameEndPositionX = actualFramePositionX + widthOfOneFrame;
+        int frameEndPositionY = actualFramePositionY + heightOfOneFrame;
+
+        g.drawImage(spriteSheetProperty.getSheet(), positionX, positionY, spriteEndPositionX, spriteEndPositionY,
+                actualFramePositionX, actualFramePositionY, frameEndPositionX, frameEndPositionY, null);
     }
 
     @Override
@@ -99,7 +103,7 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
 
     @Override
     public void changeState(KindOfStateEnum state) {
-        actualAnimationStateEnum=state;
+        actualAnimationStateEnum = state;
         actualAnimationStateFrames = spriteSheetProperty.getAction(state);
         setActualFramesPositionToMinFromState();
     }
@@ -126,7 +130,7 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
 
     protected void setAnimationPeriodInterval(long animationPeriodInterval) {
         timer.cancel();
-        timer=new Timer();
+        timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), ANIMATION_FRAME_TIMER_DELAY, animationPeriodInterval);
     }
 }

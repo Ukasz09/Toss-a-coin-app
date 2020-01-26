@@ -1,4 +1,4 @@
 package resources;
 
-public class ResourceTemplateClass {
+public abstract class ResourceTemplateClass {
 }

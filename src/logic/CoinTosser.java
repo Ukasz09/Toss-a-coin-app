@@ -10,14 +10,12 @@ import java.util.Set;
 
 public class CoinTosser implements IObserver, IObservable {
     private Set<IObserver> observers;
-    private int tailsCount;
-    private int headsCount;
     private Random randomGenerator;
+    private int tailsCount = 0;
+    private int headsCount = 0;
 
     public CoinTosser() {
         observers = new HashSet<>();
-        tailsCount = 0;
-        headsCount = 0;
         randomGenerator = new Random();
     }
 

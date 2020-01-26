@@ -8,7 +8,6 @@ import GUI.panels.TossButtonPanel;
 import GUI.sprites.CoinSprite;
 import GUI.sprites.spriteProperties.KindOfStateEnum;
 import logic.CoinTosser;
-import logic.Logger;
 import logic.observerPattern.EventKind;
 import logic.observerPattern.IObserver;
 
@@ -16,13 +15,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class ApplicationMainFrame extends JFrame implements IObserver {
     private static final String APPLICATION_NAME = "Toss a coin app";
     private static final double FONT_SIZE_TO_SCREEN_HEIGHT_PROPORTION = 0.025;
+    private static final int EXIT_SHORTCUT = KeyEvent.VK_ESCAPE;
 
     private Background background;
+    private int screenWidth;
+    private int screenHeight;
     private ResultBarField headsField;
     private ResultBarField tailsField;
     private CoinTosser coinTosser;
@@ -37,37 +38,25 @@ public class ApplicationMainFrame extends JFrame implements IObserver {
         addEndProgramShortcutListener();
     }
 
-    private void addEndProgramShortcutListener() {
-        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
-        Action escapeAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                System.exit(0);
-            }
-        };
-        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
-        getRootPane().getActionMap().put("ESCAPE", escapeAction);
-    }
-
-    private void initializeComponents() {
-        background = new Background();
-        coinTosser = new CoinTosser();
-        coinSprite = new CoinSprite(background.getScreenWidth(), background.getScreenHeight());
-        int textSize = (int) (background.getScreenHeight() * FONT_SIZE_TO_SCREEN_HEIGHT_PROPORTION);
-        int screenWidth = background.getScreenWidth();
-        int screenHeight = background.getScreenHeight();
-        headsField = new ResultBarField(false, textSize, screenWidth, screenHeight);
-        tailsField = new ResultBarField(true, textSize, screenWidth, screenHeight);
-    }
-
     private void setDefaultFrameProperty() {
         setFullScreen();
         setVisible(true);
+        background = new Background();
+        screenWidth = background.getScreenWidth();
+        screenHeight = background.getScreenHeight();
     }
 
     private void setFullScreen() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
+    }
+
+    private void initializeComponents() {
+        coinTosser = new CoinTosser();
+        coinSprite = new CoinSprite(screenWidth, screenHeight);
+        int textSize = (int) (screenHeight * FONT_SIZE_TO_SCREEN_HEIGHT_PROPORTION);
+        headsField = new ResultBarField(false, textSize, screenWidth, screenHeight);
+        tailsField = new ResultBarField(true, textSize, screenWidth, screenHeight);
     }
 
     private void addComponentsToPanels() {
@@ -78,9 +67,9 @@ public class ApplicationMainFrame extends JFrame implements IObserver {
     }
 
     private void addTossButtonPanel() {
-        TossButtonPanel tossButtonPanel = new TossButtonPanel(background.getScreenWidth(), background.getScreenHeight());
+        TossButtonPanel tossButtonPanel = new TossButtonPanel(screenWidth, screenHeight);
         background.add(tossButtonPanel, BorderLayout.SOUTH);
-        TossButton tossButton = new TossButton(background.getScreenWidth(), background.getScreenHeight());
+        TossButton tossButton = new TossButton(screenWidth, screenHeight);
         tossButton.attachObserver(coinSprite);
         coinSprite.attachObserver(tossButton);
         tossButtonPanel.add(tossButton);
@@ -98,6 +87,19 @@ public class ApplicationMainFrame extends JFrame implements IObserver {
         coinSprite.attachObserver(coinTosser);
     }
 
+    private void addEndProgramShortcutListener() {
+        KeyStroke keyStroke = KeyStroke.getKeyStroke(EXIT_SHORTCUT, 0, false);
+        Action exitKeyAction = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                System.exit(0);
+            }
+        };
+
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke,EXIT_SHORTCUT);
+        getRootPane().getActionMap().put(EXIT_SHORTCUT, exitKeyAction);
+    }
+
     @Override
     public void updateObserver(EventKind eventKind) {
         switch (eventKind) {
@@ -112,8 +114,6 @@ public class ApplicationMainFrame extends JFrame implements IObserver {
                 tailsField.setActualCount(coinTosser.getTailsCount());
             }
             break;
-            default:
-                Logger.logError(getClass(), "Unknown event");
         }
     }
 

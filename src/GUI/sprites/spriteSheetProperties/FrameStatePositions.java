@@ -8,7 +8,6 @@ public class FrameStatePositions {
     private int startIndex;
     private int endIndex;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     FrameStatePositions(int minX, int maxX, int minY, int maxY) {
         this.minX = minX;
         this.maxX = maxX;
@@ -16,7 +15,6 @@ public class FrameStatePositions {
         this.maxY = maxY;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public int getMinX() {
         return minX;
     }
