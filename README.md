@@ -1,4 +1,4 @@
-# Toss a coin app/game [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](https://choosealicense.com/licenses/mit/) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/Ukasz09/Toss-a-coin-app)
+# Toss a coin app/game [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](https://choosealicense.com/licenses/mit/) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/Ukasz09/Toss-a-coin-app) ![stability-frozen](https://img.shields.io/badge/stability-locked-blue.svg)
 
 >Fun, animated application/game of toss coin simulation written in Java language using Swing library 💰🎲
 <br/>
