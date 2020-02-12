@@ -3,9 +3,13 @@
 >Fun, animated application/game of toss coin simulation written in Java language using Swing library 💰🎲
 <br/>
 
+💻 All resolutions support <br/>
+🔉 Sounds and music <br/>
 
+# Gameplay
 <p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/Toss-a-coin-app/master/readmeImages/gameplay.gif"></p>
 
+# Screenshots 
 ![gameplay image](https://raw.githubusercontent.com/Ukasz09/Toss-a-coin-app/master/readmeImages/readme1.png)
 
 ---
