@@ -3,23 +3,23 @@
 
 💻 All resolutions support <br/>
 
-# Gameplay
+## Gameplay
 <p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/Toss-a-coin-app/master/readmeImages/gameplay.gif"></p>
 
-# Screenshots 
+## Screenshots 
 ![gameplay image](https://raw.githubusercontent.com/Ukasz09/Toss-a-coin-app/master/readmeImages/readme1.png)
 
-# JAR
+## How to use it
 If there is a problem with running, try to open it by console with command:
 ```cmd
 java -jar TossACoinApp.jar
 ```
 
-# Game control
+## Game control
 `mouse` - intuitively, by clicking on button and coin <br/>
 `Esc` - shortcut for end game button
 
-# For dev
+## Software design stuff
 **Used Designs Patterns:**
 <br/><br/>
 ✅ Builder <br/>
